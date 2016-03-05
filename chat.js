@@ -14,6 +14,12 @@ var customer = {
 
 
 socket.on('connection', function(client){
+    var username = false;
+    var isStaff = false;
+    client.on('login', function(data) { 
+        username = data.username;
+        isStaff = data.isStaff;
+    });
     client.on('subscribe', function(data) { 
         if (data.room == "staff_lobby")
         {
@@ -22,12 +28,11 @@ socket.on('connection', function(client){
         else
         {
             // customer subscribe
-
-            if (! data.isStaff)
+            if (! isStaff)
             {
                 var exists = false;
                 for (var i=customer.queue.length-1; i>=0; i--) {
-                    if (customer.queue[i].username === data.username)
+                    if (customer.queue[i].username === username)
                     {
                         exists = true;
                         customer.queue[i].join_at = new Date().toISOString();
@@ -40,7 +45,7 @@ socket.on('connection', function(client){
                     customer.total++;
                     customer.queue.push({
                         id: customer.total,
-                        username: data.username,
+                        username: username,
                         room: data.room,
                         status: 'new',
                         join_at: new Date().toISOString()
@@ -61,30 +66,30 @@ socket.on('connection', function(client){
 
 
             client.join(data.room); 
-            if (! data.isStaff)
+            if (! isStaff)
             {
                 socket.in(data.room).emit('message', {
-                    sender: data.username,
-                    message: data.username + " start private chat. You are "+ customer.total + ".",
+                    sender: username,
+                    message: username + " start private chat. You are "+ customer.total + ".",
                     send_at: new Date().toISOString(),
-                    isStaff: data.isStaff
+                    isStaff: isStaff
                 });
                 
             }
             else
             {
                 socket.in(data.room).emit('message', {
-                    sender: data.username,
-                    message: data.username + " start private chat.",
+                    sender: username,
+                    message: username + " start private chat.",
                     send_at: new Date().toISOString(),
-                    isStaff: data.isStaff
+                    isStaff: isStaff
                 });
             }
             socket.in("staff_lobby").emit('new_user', {});
             
         }
 
-        console.log('joining room', data.username, data.room);
+        console.log('joining room', username, data.room);
     });
 
     // note http://stackoverflow.com/questions/9418697/how-to-unsubscribe-from-a-socket-io-subscription
@@ -102,7 +107,7 @@ socket.on('connection', function(client){
 
         // remove from queue
         for (var i=customer.queue.length-1; i>=0; i--) {
-            if (customer.queue[i].username === data.username)
+            if (customer.queue[i].username === username)
             {
                 customer.queue.splice(i, 1);
                 break;       //<-- Uncomment  if only the first term has to be removed
@@ -111,8 +116,8 @@ socket.on('connection', function(client){
 
         console.log('leaving room', data.room);
         socket.in(data.room).emit('message', {
-            sender: data.username,
-            message: data.username + " leave from this chat.",
+            sender: username,
+            message: username + " leave from this chat.",
             send_at: new Date().toISOString()
         });
         client.leave(data.room); 
@@ -121,10 +126,10 @@ socket.on('connection', function(client){
     client.on('send', function(data) {
         console.log('sending message');
         socket.in(data.room).emit('message', {
-            sender: data.username,
+            sender: username,
             message: data.message,
             send_at: new Date().toISOString(),
-            isStaff: data.isStaff
+            isStaff: isStaff
         });
     });
 });

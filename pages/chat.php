@@ -187,19 +187,20 @@ else
         var room = '<?php echo $room; ?>';
         var isStaff = <?php echo empty($_GET['join']) ? 'false' : 'true'; ?>;
 
-        socket.emit('subscribe', {room: room, username: username, isStaff: isStaff});
+        socket.emit('login', {username: username, isStaff: isStaff});
+        socket.emit('subscribe', {room: room});
 
         window.onbeforeunload = function() {
             return "You're about to end your chat session, are you sure?";
         };
 
         $( window ).unload(function() {
-            socket.emit('unsubscribe', {room: room, username: username});
+            socket.emit('unsubscribe', {room: room});
             return "Bye now!";
         });
 
         $('form').submit(function(){
-            socket.emit('send', { username: username, room: room, message: $('#message').val(), isStaff: isStaff});
+            socket.emit('send', { room: room, message: $('#message').val()});
             $('#message').val('');
             return false;
         });
