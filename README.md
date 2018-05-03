@@ -5,6 +5,7 @@ Example chatroom project with crossing use between NodeJS PHP Socket.io and Expr
 - Put this project to folder of apache or nginx that can run PHP.
 - run `npm install` to install node package. This require express and socket.io.
 - run `node chat.js` for run websocket/api server.
+*You need to run php and node on same server and make sure that port 80 and 3421 can connect from client.*
 
 # How to use
 - Open index.php page to get login page as customer.

@@ -1,3 +1,15 @@
+<?php
+try {
+    file_get_contents("http://127.0.0.1:3421/customer/queue");    
+    $host = '127.0.0.1';
+    
+} catch(Exception $e) {
+    throw new Exception("You need run node js on same server.");
+}
+
+
+?>
+
 <!doctype html>
 <html>
     <head>
@@ -24,7 +36,7 @@
                         </tr>
                     </thead>
                     <?php 
-                        $queue = json_decode(file_get_contents("http://".$_SERVER['HTTP_HOST'].":3421/customer/queue"), true);
+                        $queue = json_decode(file_get_contents("http://".$host.":3421/customer/queue"), true);
                     ?>
                     <tbody>
                         <?php if (count($queue) > 0): ?>
@@ -56,7 +68,7 @@
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
-            // var socket = io('//<?php echo $_SERVER['HTTP_HOST']; ?>:3421');
+            // var socket = io('//<?php echo $host; ?>:3421');
             // socket.connect(); 
             // socket.emit('subscribe', {room: 'staff_lobby'});
             // socket.on('update_staff_lobby', function(data){

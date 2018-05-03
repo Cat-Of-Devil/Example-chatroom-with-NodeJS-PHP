@@ -23,9 +23,9 @@ else
 <html>
 <head>
     <title>Socket.IO chat</title>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-        <script type='text/javascript' src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+        <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <style>
         .chat
         {
@@ -142,7 +142,7 @@ else
                 <button type="button" class="close" data-dismiss="iframe-box" aria-label="Close" style="top: -10px;
   position: relative;" onclick="closeIframe()"><span aria-hidden="true">&times;</span></button>
 
-                <iframe src="//www.google.com" height="300px;" width="100%" style="border: 0px solid;"></iframe>
+                <iframe height="300px;" width="100%" style="border: 0px solid;"></iframe>
             </div>
         </div>
     </div>
